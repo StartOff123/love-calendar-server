@@ -18,7 +18,7 @@ async function bootstrap() {
 
   app.enableCors({
     credentials: true,
-    origin: ['https://love-calendar-beige.vercel.app']
+    origin: ['*']
   })
   await app.listen(3001)
 }
