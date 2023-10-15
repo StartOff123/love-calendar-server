@@ -1,9 +1,7 @@
-import { Body, Controller, Get, Param, Patch, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common'
 import { UserService } from './user.service'
 import { AuthenticatedGuard } from 'src/auth/authenticated.guard'
 import { UserId } from 'src/decorators/user-id.decorator'
-import { FileInterceptor } from '@nestjs/platform-express'
-import { storage } from './storage.config'
 
 @Controller('user')
 export class UserController {
@@ -13,13 +11,6 @@ export class UserController {
     @UseGuards(AuthenticatedGuard)
     getMe(@UserId() id: number) {
         return this.userService.getMe(id)
-    }
-
-    @Patch('/update-avatar')
-    @UseGuards(AuthenticatedGuard)
-    @UseInterceptors(FileInterceptor('image', { storage: storage }))
-    updateAvatar(@UploadedFile() image: Express.Multer.File, @UserId() id: number) {
-        return this.userService.updateAvatar(image, id)
     }
 
     @Get('/online')

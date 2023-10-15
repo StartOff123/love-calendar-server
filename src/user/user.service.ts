@@ -5,19 +5,6 @@ import { PrismaService } from 'src/prisma.service'
 export class UserService {
     constructor(private prismaService: PrismaService) { }
 
-    async updateAvatar(image: Express.Multer.File, id: number) {
-        await this.prismaService.user.update({
-            where: { id },
-            data: {
-                AvatarUrl: image.filename
-            }
-        })
-
-        return {
-            AvatarUrl: image.filename
-        }
-    }
-
     async getMe(id: number) {
         const user = await this.prismaService.user.findUnique({ where: { id } })
         const { password, ...data } = user
