@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Get, Param, Patch, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
 import { UserService } from './user.service'
 import { AuthenticatedGuard } from 'src/auth/authenticated.guard'
 import { UserId } from 'src/decorators/user-id.decorator'
