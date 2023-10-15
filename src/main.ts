@@ -7,6 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
   app.use(
+    //@ts-ignore
     session({
       secret: 'keyword',
       resave: false,
