@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common'
 import { UserService } from './user.service'
-import { AuthenticatedGuard } from 'src/auth/authenticated.guard'
-import { UserId } from 'src/decorators/user-id.decorator'
+import { AuthenticatedGuard } from '../auth/authenticated.guard'
+import { UserId } from '../decorators/user-id.decorator'
 
 @Controller('user')
 export class UserController {

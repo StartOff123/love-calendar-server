@@ -1,6 +1,6 @@
 import { Controller, Get, UseGuards, Res } from '@nestjs/common'
 import { ChatService } from './chat.service'
-import { AuthenticatedGuard } from 'src/auth/authenticated.guard'
+import { AuthenticatedGuard } from '../auth/authenticated.guard'
 
 @Controller('chat')
 export class ChatController {

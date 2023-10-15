@@ -2,7 +2,7 @@ import { OnGatewayConnection, SubscribeMessage, WebSocketGateway, OnGatewayDisco
 import { Prisma } from '@prisma/client'
 import { Server, Socket } from 'socket.io'
 import { ChatService } from './chat.service'
-import { UserService } from 'src/user/user.service'
+import { UserService } from '../user/user.service'
 
 @WebSocketGateway({ cors: true, transports: ['websocket'] })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
