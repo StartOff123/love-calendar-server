@@ -1,11 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
 import { CreateUserDto } from './dto/create-user.dto'
+import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
+import { SignInDto } from './dto/sign-in.dto'
 
 @Injectable()
 export class AuthService {
-    constructor(private prismaService: PrismaService) { }
+    constructor(private prismaService: PrismaService, private jwtService: JwtService) { }
 
     async create(createUserDto: CreateUserDto) {
         const passworHash = await bcrypt.hash(createUserDto.password, 10)
@@ -20,12 +22,14 @@ export class AuthService {
         })
     }
 
-    async login(username: string, password: string) {
-        const user = await this.prismaService.user.findUnique({ where: { login: username } })
+    async login(signInDto: SignInDto) {
+        const user = await this.prismaService.user.findUnique({ where: { login: signInDto.login } })
 
         if (!user) throw new UnauthorizedException('Неверный логин или пароль')
-        const passwordValid = await bcrypt.compare(password, user.password)
+        const passwordValid = await bcrypt.compare(signInDto.password, user.password)
         if (!passwordValid) throw new UnauthorizedException('Неверный логин или пароль')
+
+        const payload = { id: user.id }
 
         if (user && passwordValid) {
             return {
@@ -33,8 +37,21 @@ export class AuthService {
                 name: user.name,
                 login: user.login,
                 AvatarUrl: user.AvatarUrl,
-                days: user.days
+                days: user.days,
+                access_token: await this.jwtService.signAsync(payload)
             }
+        }
+    }
+
+    async loginCheck(id: number) {
+        const user = await this.prismaService.user.findUnique({ where: { id } })
+
+        return {
+            id: user.id,
+            name: user.name,
+            login: user.login,
+            AvatarUrl: user.AvatarUrl,
+            days: user.days,
         }
     }
 }

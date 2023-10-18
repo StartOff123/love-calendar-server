@@ -16,8 +16,9 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
-const local_auth_guard_1 = require("./local.auth.guard");
-const authenticated_guard_1 = require("./authenticated.guard");
+const sign_in_dto_1 = require("./dto/sign-in.dto");
+const auth_guard_1 = require("./auth.guard");
+const user_id_decorator_1 = require("../decorators/user-id.decorator");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -25,11 +26,11 @@ let AuthController = class AuthController {
     createUser(createUserDto) {
         return this.authService.create(createUserDto);
     }
-    login(req) {
-        return { ...req.user };
+    login(signInDto) {
+        return this.authService.login(signInDto);
     }
-    loginCheck(req) {
-        return { ...req.user };
+    loginCheck(id) {
+        return this.authService.loginCheck(id);
     }
     logout(req) {
         req.session.destroy((_) => { });
@@ -46,23 +47,22 @@ __decorate([
 ], AuthController.prototype, "createUser", null);
 __decorate([
     (0, common_1.Post)('/login'),
-    (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
-    __param(0, (0, common_1.Request)()),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [sign_in_dto_1.SignInDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
 __decorate([
     (0, common_1.Get)('/login-check'),
-    (0, common_1.UseGuards)(authenticated_guard_1.AuthenticatedGuard),
-    __param(0, (0, common_1.Request)()),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    __param(0, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "loginCheck", null);
 __decorate([
     (0, common_1.Get)('/logout'),
-    (0, common_1.UseGuards)(authenticated_guard_1.AuthenticatedGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

@@ -15,56 +15,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
-const authenticated_guard_1 = require("../auth/authenticated.guard");
 const user_id_decorator_1 = require("../decorators/user-id.decorator");
+const auth_guard_1 = require("../auth/auth.guard");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    getMe(id) {
-        return this.userService.getMe(id);
-    }
-    online(id) {
-        return this.userService.online(id);
-    }
-    offline(id) {
-        return this.userService.offline(id);
-    }
     updateDays(dto, id) {
         return this.userService.updateDays(id, dto);
     }
-    getUser(id) {
-        return this.userService.getUser(id);
+    getUser(userId) {
+        return this.userService.getUser(userId);
     }
 };
 exports.UserController = UserController;
 __decorate([
-    (0, common_1.Get)('/get-me'),
-    (0, common_1.UseGuards)(authenticated_guard_1.AuthenticatedGuard),
-    __param(0, (0, user_id_decorator_1.UserId)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "getMe", null);
-__decorate([
-    (0, common_1.Get)('/online'),
-    (0, common_1.UseGuards)(authenticated_guard_1.AuthenticatedGuard),
-    __param(0, (0, user_id_decorator_1.UserId)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "online", null);
-__decorate([
-    (0, common_1.Get)('/offline'),
-    (0, common_1.UseGuards)(authenticated_guard_1.AuthenticatedGuard),
-    __param(0, (0, user_id_decorator_1.UserId)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "offline", null);
-__decorate([
     (0, common_1.Patch)('/update-days'),
-    (0, common_1.UseGuards)(authenticated_guard_1.AuthenticatedGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
@@ -72,9 +39,9 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "updateDays", null);
 __decorate([
-    (0, common_1.Get)('/get-user/:id'),
-    (0, common_1.UseGuards)(authenticated_guard_1.AuthenticatedGuard),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)('/get-user/:userId'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)

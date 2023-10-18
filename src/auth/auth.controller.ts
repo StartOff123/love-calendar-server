@@ -1,8 +1,9 @@
 import { Body, Controller, Post, UseGuards, Request, Get } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { CreateUserDto } from './dto/create-user.dto'
-import { LocalAuthGuard } from './local.auth.guard'
-import { AuthenticatedGuard } from './authenticated.guard'
+import { SignInDto } from './dto/sign-in.dto'
+import { AuthGuard } from './auth.guard'
+import { UserId } from '../decorators/user-id.decorator'
 
 @Controller('auth')
 export class AuthController {
@@ -14,19 +15,18 @@ export class AuthController {
     }
 
     @Post('/login')
-    @UseGuards(LocalAuthGuard)
-    login(@Request() req: Express.Request) {
-        return { ...req.user }
+    login(@Body() signInDto: SignInDto) {
+        return this.authService.login(signInDto)
     }
 
     @Get('/login-check')
-    @UseGuards(AuthenticatedGuard)
-    loginCheck(@Request() req: Express.Request) {
-        return { ...req.user }
+    @UseGuards(AuthGuard)
+    loginCheck(@UserId() id: number) {
+        return this.authService.loginCheck(id)
     }
 
     @Get('/logout')
-    @UseGuards(AuthenticatedGuard)
+    @UseGuards(AuthGuard)
     logout(@Request() req: Express.Request) {
         req.session.destroy((_: any) => { })
         return { message: 'Вы вышли из системы' }

@@ -11,17 +11,22 @@ const common_1 = require("@nestjs/common");
 const auth_controller_1 = require("./auth.controller");
 const auth_service_1 = require("./auth.service");
 const prisma_service_1 = require("../prisma.service");
-const passport_1 = require("@nestjs/passport");
-const local_strategy_1 = require("./local.strategy");
-const session_serializer_1 = require("./session.serializer");
+const jwt_1 = require("@nestjs/jwt");
+const constants_1 = require("./constants");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
-        imports: [passport_1.PassportModule.register({ session: true })],
+        imports: [
+            jwt_1.JwtModule.register({
+                global: true,
+                secret: constants_1.jwtConstants.secret,
+                signOptions: { expiresIn: '30d' }
+            })
+        ],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, prisma_service_1.PrismaService, local_strategy_1.LocalStrategy, session_serializer_1.SessionSerializer]
+        providers: [auth_service_1.AuthService, prisma_service_1.PrismaService]
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map

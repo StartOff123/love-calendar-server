@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatController = void 0;
 const common_1 = require("@nestjs/common");
 const chat_service_1 = require("./chat.service");
-const authenticated_guard_1 = require("../auth/authenticated.guard");
+const auth_guard_1 = require("../auth/auth.guard");
 let ChatController = class ChatController {
     constructor(chatService) {
         this.chatService = chatService;
@@ -28,7 +28,7 @@ let ChatController = class ChatController {
 exports.ChatController = ChatController;
 __decorate([
     (0, common_1.Get)('/get'),
-    (0, common_1.UseGuards)(authenticated_guard_1.AuthenticatedGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

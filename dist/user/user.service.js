@@ -16,29 +16,6 @@ let UserService = class UserService {
     constructor(prismaService) {
         this.prismaService = prismaService;
     }
-    async getMe(id) {
-        const user = await this.prismaService.user.findUnique({ where: { id } });
-        const { password, ...data } = user;
-        return {
-            ...data
-        };
-    }
-    async online(id) {
-        await this.prismaService.user.update({
-            where: { id },
-            data: {
-                online: true
-            }
-        });
-    }
-    async offline(id) {
-        await this.prismaService.user.update({
-            where: { id },
-            data: {
-                online: false
-            }
-        });
-    }
     async updateDays(id, dto) {
         return await this.prismaService.user.update({
             where: { id },
@@ -47,15 +24,16 @@ let UserService = class UserService {
             }
         });
     }
-    async getUser(id) {
+    async getUser(userId) {
         const user = await this.prismaService.user.findUnique({
-            where: { id: Number(id) }
+            where: { id: Number(userId) }
         });
-        return {
-            id: user.id,
-            name: user.name,
-            online: user.online
-        };
+        if (user) {
+            return {
+                id: user.id,
+                name: user.name,
+            };
+        }
     }
 };
 exports.UserService = UserService;
