@@ -11,7 +11,11 @@ export class ChatService {
     }
 
     async getMessages(): Promise<Message[]> {
-        return await this.prismaService.message.findMany()
+        return await this.prismaService.message.findMany({
+            orderBy: {
+                id: 'asc'
+            }
+        })
     }
 
     async vievedMessage(id: number): Promise<Message> {
