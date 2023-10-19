@@ -13,4 +13,8 @@ export class ChatService {
     async getMessages(): Promise<Message[]> {
         return await this.prismaService.message.findMany()
     }
+
+    async vievedMessage(id: number): Promise<Message> {
+        return await this.prismaService.message.update({ where: { id }, data: { viewed: true } })
+    }
 }

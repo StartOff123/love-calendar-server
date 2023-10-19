@@ -32,8 +32,17 @@ let UserService = class UserService {
             return {
                 id: user.id,
                 name: user.name,
+                lastOnline: user.lastOnline
             };
         }
+    }
+    async offline(id) {
+        const user = await this.prismaService.user.update({ where: { id }, data: { lastOnline: new Date().toISOString() } });
+        return {
+            id: user.id,
+            name: user.name,
+            lastOnline: user.lastOnline
+        };
     }
 };
 exports.UserService = UserService;

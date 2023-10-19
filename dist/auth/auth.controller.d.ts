@@ -8,7 +8,15 @@ import { SignInDto } from './dto/sign-in.dto';
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
-    createUser(createUserDto: CreateUserDto): Promise<import(".prisma/client").User>;
+    createUser(createUserDto: CreateUserDto): Promise<import("@prisma/client/runtime").GetResult<{
+        id: number;
+        name: string;
+        login: string;
+        password: string;
+        AvatarUrl: string;
+        days: string;
+        lastOnline: Date;
+    }, unknown> & {}>;
     login(signInDto: SignInDto): Promise<{
         id: number;
         name: string;

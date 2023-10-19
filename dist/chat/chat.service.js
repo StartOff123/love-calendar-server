@@ -22,6 +22,9 @@ let ChatService = class ChatService {
     async getMessages() {
         return await this.prismaService.message.findMany();
     }
+    async vievedMessage(id) {
+        return await this.prismaService.message.update({ where: { id }, data: { viewed: true } });
+    }
 };
 exports.ChatService = ChatService;
 exports.ChatService = ChatService = __decorate([

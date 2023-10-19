@@ -5,4 +5,5 @@ export declare class ChatService {
     constructor(prismaService: PrismaService);
     createMessage(data: Prisma.MessageCreateInput): Promise<Message>;
     getMessages(): Promise<Message[]>;
+    vievedMessage(id: number): Promise<Message>;
 }

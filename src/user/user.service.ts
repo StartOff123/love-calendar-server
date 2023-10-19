@@ -18,13 +18,23 @@ export class UserService {
         const user = await this.prismaService.user.findUnique({
             where: { id: Number(userId) }
         })
-        
+
         if (user) {
             return {
                 id: user.id,
                 name: user.name,
+                lastOnline: user.lastOnline
             }
         }
 
+    }
+
+    async offline(id: number) {
+        const user = await this.prismaService.user.update({ where: { id }, data: { lastOnline: new Date().toISOString() } })
+        return {
+            id: user.id,
+            name: user.name,
+            lastOnline: user.lastOnline
+        }
     }
 }
