@@ -6,7 +6,7 @@ async function bootstrap() {
   app.enableCors({
     credentials: true,
     origin: [
-      'https://love-calendar-beige.vercel.app',
+      'https://love-calendar-chi.vercel.app',
       'https://love-calendar.onrender.com',
       'http://localhost:3000'
     ]

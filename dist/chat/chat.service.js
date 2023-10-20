@@ -20,7 +20,11 @@ let ChatService = class ChatService {
         return await this.prismaService.message.create({ data });
     }
     async getMessages() {
-        return await this.prismaService.message.findMany();
+        return await this.prismaService.message.findMany({
+            orderBy: {
+                id: 'asc'
+            }
+        });
     }
     async vievedMessage(id) {
         return await this.prismaService.message.update({ where: { id }, data: { viewed: true } });
